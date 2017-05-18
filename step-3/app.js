@@ -34,6 +34,7 @@ var app = new Vue({
     let lastTodo = JSON.parse(lastTodoString)
     this.todoList = oldData || [];
     this.newTodo = lastTodo || '';
+    this.currentUser = this.getCurrentUser() || null;
   },
   methods: {
     addTodo: function(){
@@ -67,8 +68,19 @@ var app = new Vue({
         })
     },
     getCurrentUser: function(){
-      let {id,createAt,attributes:{username}} = AV.User.current();
-      return {id,username,createAt}
+      if(AV.User.current()){
+        let {id,createAt,attributes:{username}} = AV.User.current()
+        return {id,username,createAt}
+      }else {
+        return undefined
+      }
+    },
+    logout: function(){
+      AV.User.logOut();
+      this.currentUser = null
+      window.location.reload()
     }
   }
+
+
 })

@@ -38,6 +38,7 @@
        </div>
      </section>
      <section id="todo" v-if="currentUser">
+       <div> <button @click="logout">登出</button> </div>
         <div class="newTask">
           <input type="text" v-model="newTodo" @keypress.enter="addTodo">
         </div>

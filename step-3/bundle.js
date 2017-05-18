@@ -92,6 +92,7 @@
 	    var lastTodo = JSON.parse(lastTodoString);
 	    this.todoList = oldData || [];
 	    this.newTodo = lastTodo || '';
+	    this.currentUser = this.getCurrentUser() || null;
 	  },
 	  methods: {
 	    addTodo: function addTodo() {
@@ -128,14 +129,24 @@
 	      });
 	    },
 	    getCurrentUser: function getCurrentUser() {
-	      var _AV$User$current = _leancloudStorage2.default.User.current(),
-	          id = _AV$User$current.id,
-	          createAt = _AV$User$current.createAt,
-	          username = _AV$User$current.attributes.username;
+	      if (_leancloudStorage2.default.User.current()) {
+	        var _AV$User$current = _leancloudStorage2.default.User.current(),
+	            id = _AV$User$current.id,
+	            createAt = _AV$User$current.createAt,
+	            username = _AV$User$current.attributes.username;
 
-	      return { id: id, username: username, createAt: createAt };
+	        return { id: id, username: username, createAt: createAt };
+	      } else {
+	        return undefined;
+	      }
+	    },
+	    logout: function logout() {
+	      _leancloudStorage2.default.User.logOut();
+	      this.currentUser = null;
+	      window.location.reload();
 	    }
 	  }
+
 	});
 
 /***/ }),
