@@ -4,6 +4,7 @@
   </head>
   <body>
     <div id="app">
+      <h1>我的待办</h1>
       <div class="newTask">
         <input type="text" v-model="newTodo" @keypress.enter="addTodo">
       </div>
@@ -13,7 +14,7 @@
           {{todo.title}}
           <span v-if="todo.done">已完成</span>
           <span v-else>未完成</span>
-          <button @click="removeTodo(todo)">✖</button>
+          <button @click="removeTodo(todo)">×</button>
         </li>
       </ol>
     </div>

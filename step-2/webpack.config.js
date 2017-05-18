@@ -15,6 +15,10 @@ module.exports = {
         exclude: /node_modules/,
         loader: 'babel-loader?presets[]=es2015&presets[]=react'
       },
+      {
+        test: /\.less$/,
+        loader: 'style!css!less',
+      },
     ]
   }
 }

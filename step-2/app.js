@@ -1,6 +1,6 @@
 import bar from './bar';
 import Vue from 'vue'
-
+import './app.less'
 var app = new Vue({
   el: '#app',
   data: {
@@ -9,12 +9,17 @@ var app = new Vue({
   },
   created: function(){
     window.onbeforeunload = () => {
-      let dataString = JSON.stringify(this.todoList);
-      window.localStorage.setItem('myTodos',dataString)
+      let newTodoString = JSON.stringify(this.newTodo)
+      let todoListString = JSON.stringify(this.todoList);
+      window.localStorage.setItem('myTodos',todoListString);
+      window.localStorage.setItem('lastTodo',newTodoString)
     }
-    let oldDataString = window.localStorage.getItem('myTodos')
-    let oldData = JSON.parse(oldDataString)
-    this.todoList = oldData || []
+    let oldTodoListString = window.localStorage.getItem('myTodos')
+    let lastTodoString = window.localStorage.getItem('lastTodo')
+    let oldData = JSON.parse(oldTodoListString)
+    let lastTodo = JSON.parse(lastTodoString)
+    this.todoList = oldData || [];
+    this.newTodo = lastTodo || '';
   },
   methods: {
     addTodo: function(){
