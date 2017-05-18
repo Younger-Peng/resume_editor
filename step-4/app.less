@@ -1,0 +1,56 @@
+* {
+  margin: 0;
+  padding: 0;
+  ul,li {
+    list-style: none;
+  }
+  #app {
+    min-width: 600px;
+    max-width: 600px;
+    margin: 20px auto;
+    min-height: 700px;
+    box-shadow: 0 0 3px rgba(0,0,0,.3);
+    h1 {
+      padding: 15px;
+      text-align: center;
+    }
+    .newTask {
+      padding: 10px;
+      input {
+          width: 100%;
+          padding: 10px;
+          border-style: ridge;
+          outline: none;
+          box-sizing: border-box;
+        }
+    }
+    .todos {
+      li {
+        font-size: 30px;
+        padding: 5px 10px;
+        background: pink;
+        margin: 5px 0;
+        display: flex;
+        justify-content: space-between;
+        input {
+          vertical-align: middle;
+          margin-right: 20px;
+        }
+        button {
+          border-radius: 3px;
+          outline: none;
+          border-style: none;
+          background: #fff;
+          padding: 5px 8px;
+          border: 1px solid transparent;
+          cursor: pointer;
+          transition: .2s all ease;
+          &:hover {
+            color: white;
+            background: #444;
+          }
+        }
+      }
+    }
+  }
+}
