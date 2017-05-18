@@ -70,7 +70,7 @@
 	  data: {
 	    newTodo: '',
 	    todoList: [],
-	    actionType: 'signUp',
+	    actionType: 'logIn',
 	    formData: {
 	      username: '',
 	      password: ''
@@ -78,22 +78,25 @@
 	    currentUser: null
 	  },
 	  created: function created() {
-	    var _this = this;
-
 	    this.currentUser = this.getCurrentUser() || null;
-	    if (this.currentUser) {
-	      var query = new _leancloudStorage2.default.Query('AllTodos');
-	      query.find().then(function (todos) {
-	        var avAllTodos = todos[0];
-	        var id = avAllTodos.id;
-	        _this.todoList = JSON.parse(avAllTodos.attributes.content);
-	        _this.todoList.id = id;
-	      }, function (error) {
-	        console.error(error);
-	      });
-	    }
+	    this.fetchTodos();
 	  },
 	  methods: {
+	    fetchTodos: function fetchTodos() {
+	      var _this = this;
+
+	      if (this.currentUser) {
+	        var query = new _leancloudStorage2.default.Query('AllTodos');
+	        query.find().then(function (todos) {
+	          var avAllTodos = todos[0];
+	          var id = avAllTodos.id;
+	          _this.todoList = JSON.parse(avAllTodos.attributes.content);
+	          _this.todoList.id = id;
+	        }, function (error) {
+	          console.error(error);
+	        });
+	      }
+	    },
 	    updateTodos: function updateTodos() {
 	      var dataString = JSON.stringify(this.todoList);
 	      var avTodos = _leancloudStorage2.default.Object.createWithoutData('AllTodos', this.todoList.id);
@@ -115,9 +118,9 @@
 	      avTodos.setACL(acl);
 	      avTodos.save().then(function (todo) {
 	        _this2.todoList.id = todo.id;
-	        alert('保存成功');
+	        console.log('保存成功');
 	      }, function (error) {
-	        alert('保存失败');
+	        console.log('保存失败');
 	      });
 	    },
 	    saveOrUpdateTodos: function saveOrUpdateTodos() {
@@ -150,7 +153,7 @@
 	      user.signUp().then(function (loginedUser) {
 	        _this3.currentUser = _this3.getCurrentUser;
 	      }, function (error) {
-	        alert('注册失败');
+	        console.log('注册失败');
 	      });
 	    },
 	    logIn: function logIn() {
@@ -158,8 +161,9 @@
 
 	      _leancloudStorage2.default.User.logIn(this.formData.username, this.formData.password).then(function (loginedUser) {
 	        _this4.currentUser = _this4.getCurrentUser();
+	        _this4.fetchTodos();
 	      }, function (error) {
-	        alert('登录失败');
+	        console.log('登录失败');
 	      });
 	    },
 	    getCurrentUser: function getCurrentUser() {
@@ -9914,7 +9918,7 @@
 
 
 	// module
-	exports.push([module.id, "* {\n  margin: 0;\n  padding: 0;\n}\n* ul,\n* li {\n  list-style: none;\n}\n* #app {\n  min-width: 600px;\n  max-width: 600px;\n  margin: 20px auto;\n  min-height: 700px;\n  box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);\n}\n* #app h1 {\n  padding: 15px;\n  text-align: center;\n}\n* #app .newTask {\n  padding: 10px;\n}\n* #app .newTask input {\n  width: 100%;\n  padding: 10px;\n  border-style: ridge;\n  outline: none;\n  box-sizing: border-box;\n}\n* #app .todos li {\n  font-size: 30px;\n  padding: 5px 10px;\n  background: pink;\n  margin: 5px 0;\n  display: flex;\n  justify-content: space-between;\n}\n* #app .todos li input {\n  vertical-align: middle;\n  margin-right: 20px;\n}\n* #app .todos li button {\n  border-radius: 3px;\n  outline: none;\n  border-style: none;\n  background: #fff;\n  padding: 5px 8px;\n  border: 1px solid transparent;\n  cursor: pointer;\n  transition: .2s all ease;\n}\n* #app .todos li button:hover {\n  color: white;\n  background: #444;\n}\n", ""]);
+	exports.push([module.id, "* {\n  margin: 0;\n  padding: 0;\n}\n* ul,\n* li {\n  list-style: none;\n}\n* #app {\n  display: flex;\n  height: 100vh;\n  justify-content: center;\n  align-items: center;\n}\n* #app #signInAndSignUp {\n  padding: 20px 10px 40px 10px;\n  width: 400px;\n  border: 1px solid #ddd;\n  border-radius: 3px;\n  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);\n}\n* #app #signInAndSignUp .toggle {\n  display: flex;\n  justify-content: space-around;\n  padding: 10px 0;\n}\n* #app #signInAndSignUp .panel {\n  text-align: center;\n  padding: 10px 0;\n}\n* #app #signInAndSignUp .panel .formRow {\n  padding: 10px 80px;\n}\n* #app #signInAndSignUp .panel .formRow input {\n  height: 40px;\n  font-size: 16px;\n  width: 100%;\n}\n* #app #signInAndSignUp .panel .formActions {\n  padding: 10px 80px;\n}\n* #app #signInAndSignUp .panel .formActions button {\n  display: inline-block;\n  padding: 10px 0;\n  background: #288bde;\n  border-radius: 3px;\n  border: 1px solid #288bde;\n  font-size: 13px;\n  width: 100%;\n  color: #fff;\n  cursor: pointer;\n}\n* #app #signInAndSignUp .panel .formActions button:hover {\n  background: #0074d6;\n}\n* #app #signInAndSignUp .panel .formActions p {\n  position: relative;\n  padding: 20px 0;\n  text-align: center;\n}\n* #app #signInAndSignUp .panel .formActions p:before {\n  position: absolute;\n  left: 0;\n  top: 50%;\n  content: '';\n  display: block;\n  width: 40%;\n  border: 1px solid #eee;\n}\n* #app #signInAndSignUp .panel .formActions p:after {\n  position: absolute;\n  right: 0;\n  top: 50%;\n  content: '';\n  display: block;\n  width: 40%;\n  border: .5px solid #eee;\n}\n* #app #signInAndSignUp .panel .formActions a {\n  font-size: 12px;\n  display: inline-block;\n  padding: 10px 0 0 0;\n}\n* #app #todo {\n  min-width: 600px;\n  max-width: 600px;\n  margin: 20px auto;\n  min-height: 700px;\n  box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);\n}\n* #app #todo h1 {\n  padding: 15px;\n  text-align: center;\n}\n* #app #todo .newTask {\n  padding: 10px;\n}\n* #app #todo .newTask input {\n  width: 100%;\n  padding: 10px;\n  border-style: ridge;\n  outline: none;\n  box-sizing: border-box;\n}\n* #app #todo .todos li {\n  font-size: 30px;\n  padding: 5px 10px;\n  background: pink;\n  margin: 5px 0;\n  display: flex;\n  justify-content: space-between;\n}\n* #app #todo .todos li input {\n  vertical-align: middle;\n  margin-right: 20px;\n}\n* #app #todo .todos li button {\n  border-radius: 3px;\n  outline: none;\n  border-style: none;\n  background: #fff;\n  padding: 5px 8px;\n  border: 1px solid transparent;\n  cursor: pointer;\n  transition: .2s all ease;\n}\n* #app #todo .todos li button:hover {\n  color: white;\n  background: #444;\n}\n", ""]);
 
 	// exports
 

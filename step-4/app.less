@@ -5,6 +5,80 @@
     list-style: none;
   }
   #app {
+    display: flex;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    #signInAndSignUp {
+      padding: 20px 10px 40px 10px;
+      width: 400px;
+      border: 1px solid #ddd;
+      border-radius: 3px;
+      box-shadow: 0 0 5px rgba(0,0,0,.3);
+      .toggle {
+        display: flex;
+        justify-content: space-around;
+        padding: 10px 0;
+      }
+      .panel {
+        text-align: center;
+        padding: 10px 0;
+        .formRow {
+          padding: 10px 80px;
+          input {
+            height: 40px;
+            font-size: 16px;
+            width: 100%;
+          }
+        }
+        .formActions {
+          padding: 10px 80px;
+          button {
+            display: inline-block;
+            padding: 10px 0;
+            background: #288bde;
+            border-radius: 3px;
+            border: 1px solid #288bde;
+            font-size: 13px;
+            width: 100%;
+            color: #fff;
+            cursor: pointer;
+            &:hover {
+              background: #0074d6;
+            }
+          }
+          p {
+            position: relative;
+            padding: 20px 0;
+            text-align: center;
+            &:before {
+              position: absolute;
+              left: 0;
+              top: 50%;
+              content: '';
+              display: block;
+              width: 40%;
+              border: 1px solid #eee;
+            }
+            &:after {
+              position: absolute;
+              right: 0;
+              top: 50%;
+              content: '';
+              display: block;
+              width: 40%;
+              border: .5px solid #eee;
+            }
+          }
+          a {
+            font-size: 12px;
+            display: inline-block;
+            padding: 10px 0 0 0;
+          }
+        }
+      }
+    }
+    #todo {
     min-width: 600px;
     max-width: 600px;
     margin: 20px auto;
@@ -52,5 +126,6 @@
         }
       }
     }
+  }
   }
 }

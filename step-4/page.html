@@ -4,40 +4,45 @@
   </head>
   <body>
     <div id="app">
-      <h1>我的待办</h1>
      <section id="signInAndSignUp" v-if="!currentUser">
-       <div>
+       <div class="signUp panel" v-if="actionType==='signUp'">
+         <h1>注册TodoList</h1>
+         <form @submit.prevent='signUp'>
+           <div class="formRow">
+             <input type="text" v-model="formData.username" placeholder="用户名">
+           </div>
+           <div class="formRow">
+             <input type="password" v-model="formData.password" placeholder="密码">
+           </div>
+           <div class="formActions">
+             <button type="submit">注册</button>
+           </div>
+         </form>
+       </div>
+       <div class="logIn panel" v-if="actionType==='logIn'">
+         <h1>登录TodoList</h1>
+         <form @submit.prevent='logIn'>
+           <div class="formRow">
+             <input type="text" v-model="formData.username" placeholder="用户名">
+           </div>
+           <div class="formRow">
+             <input type="password" v-model="formData.password" placeholder="密码">
+           </div>
+           <div class="formActions">
+             <button type="submit">登入</button>
+             <p>或</p>
+             <button>创建新账户</button>
+             <a href="#">忘记密码？</a>
+           </div>
+         </form>
+       </div>
+       <div class="toggle">
          <label><input type="radio" name="type" v-model="actionType" value="signUp" >注册</label>
          <label><input type="radio" name="type" v-model="actionType" value="logIn" >登录</label>
        </div>
-       <div class="signUp" v-if="actionType==='signUp'">
-         <form @submit.prevent='signUp'>
-           <div class="formRow">
-             用户名 <input type="text" v-model="formData.username">
-           </div>
-           <div class="formRow">
-             密码 <input type="password" v-model="formData.password">
-           </div>
-           <div class="formActions">
-             <input type="submit" value="注册"> 
-           </div>
-         </form>
-       </div>
-       <div class="logIn" v-if="actionType==='logIn'">
-         <form @submit.prevent='logIn'>
-           <div class="formRow">
-             用户名 <input type="text" v-model="formData.username">
-           </div>
-           <div class="formRow">
-             密码: <input type="password" v-model="formData.password">
-           </div>
-           <div class="formActions">
-             <input type="submit" value="登入">
-           </div>
-         </form>
-       </div>
      </section>
      <section id="todo" v-if="currentUser">
+       <h1>我的待办</h1>
        <div> <button @click="logout">登出</button> </div>
         <div class="newTask">
           <input type="text" v-model="newTodo" @keypress.enter="addTodo">

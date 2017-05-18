@@ -14,7 +14,7 @@ var app = new Vue({
   data: {
     newTodo: '',
     todoList: [],
-    actionType: 'signUp',
+    actionType: 'logIn',
     formData: {
       username: '',
       password: ''
@@ -23,20 +23,23 @@ var app = new Vue({
   },
   created: function(){
     this.currentUser = this.getCurrentUser() || null;
-    if(this.currentUser){
-      var query = new AV.Query('AllTodos');
-      query.find()
-        .then((todos) => {
-          let avAllTodos = todos[0];
-          let id = avAllTodos.id
-          this.todoList = JSON.parse(avAllTodos.attributes.content);
-          this.todoList.id = id;
-        }, function(error){
-          console.error(error);
-        })
-    }
+    this.fetchTodos()
   },
   methods: {
+    fetchTodos: function(){
+      if(this.currentUser){
+        var query = new AV.Query('AllTodos');
+        query.find()
+          .then((todos) => {
+            let avAllTodos = todos[0];
+            let id = avAllTodos.id
+            this.todoList = JSON.parse(avAllTodos.attributes.content);
+            this.todoList.id = id;
+          }, function(error){
+            console.error(error);
+          })
+      }
+  },
     updateTodos: function(){
       let dataString = JSON.stringify(this.todoList);
       let avTodos = AV.Object.createWithoutData('AllTodos',this.todoList.id);
@@ -56,9 +59,9 @@ var app = new Vue({
       avTodos.setACL(acl);
       avTodos.save().then((todo) => {
         this.todoList.id = todo.id
-        alert('保存成功')
+        console.log('保存成功')
       }, function(error){
-        alert('保存失败')
+        console.log('保存失败')
       })
     },
     saveOrUpdateTodos: function(){
@@ -89,15 +92,16 @@ var app = new Vue({
       user.signUp().then((loginedUser) => {
         this.currentUser = this.getCurrentUser
       }, (error) => {
-        alert('注册失败')
+        console.log('注册失败')
       })
     },
     logIn: function(){
       AV.User.logIn(this.formData.username,this.formData.password)
         .then((loginedUser) => {
           this.currentUser = this.getCurrentUser();
+          this.fetchTodos()
         }, (error) => {
-          alert('登录失败')
+          console.log('登录失败')
         })
     },
     getCurrentUser: function(){
